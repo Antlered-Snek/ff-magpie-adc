@@ -57,7 +57,6 @@ void send_byte(uint8_t b) {
   _delay_us(BIT_DELAY);
 }
 
-
 void send_battery_voltage(int16_t cell1, int16_t cell2) {
   // Send sync header
   send_byte(0xAA);

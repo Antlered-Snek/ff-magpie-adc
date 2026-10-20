@@ -23,15 +23,30 @@ void setup() {
 	DDRB = (1 << SEND_PIN);
 }
 
+void first_reading() {
+	// Reading ADC
+		uint16_t raw1 = adc_read(BATT_1S_PIN);
+		uint16_t raw2 = adc_read(BATT_2S_PIN);
+	
+		raw1_readings.insert_values(raw1);
+		raw2_readings.insert_values(raw2);
+
+}
 
 int main() {
 	setup();
+	first_reading();
 
 	while (true) {
 		// Reading ADC
 		uint16_t raw1 = adc_read(BATT_1S_PIN);
 		uint16_t raw2 = adc_read(BATT_2S_PIN);
-	
+
+		// Moving Average Filter
+		raw1 = raw1_readings.update_filter(raw1);
+		raw2 = raw2_readings.update_filter(raw2);
+		
+		// Calculate Voltage from raw values
 		batt_volts.cell1_mv = raw_to_millivolts(raw1, 100);
 		batt_volts.cell2_mv = raw_to_millivolts(raw2, 47) - batt_volts.cell1_mv;
 		
@@ -47,6 +62,7 @@ int main() {
 			initiate_data_send = false;		// Reset
 		}
 
+		_delay_ms(20);
 	}
 }
 
