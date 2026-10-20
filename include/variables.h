@@ -10,7 +10,7 @@
 // Constants
 const int BATT_1S_PIN	= A2;
 const int BATT_2S_PIN	= A3;
-const int SEND_PIN		= PB2;
+const int SEND_PIN		= PB1;
 const int BIT_DELAY = 104;		// 9600 Baud => 104us/bit
 
 // Objects
